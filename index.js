@@ -8,30 +8,32 @@ function MergeSort(array) {
   console.log(array);
 
   if (array.length == 1) {
-    return;
+    return array;
   }
   let middle = Math.floor(array.length / 2);
   let left = array.slice(0, middle);
   let right = array.slice(middle);
 
-  MergeSort(left);
-  MergeSort(right);
+  let sortedLeft = MergeSort(left);
+  let sortedRight = MergeSort(right);
 
-  sort(left, right);
+  return sort(sortedLeft, sortedRight);
 }
 
 //function to put them back togeter
 function sort(left, right) {
   let array = [];
-  while (left.length != 0 || right.length != 0) {
+  while (left.length != 0 && right.length != 0) {
     console.log("working");
     if (left[0] > right[0]) {
-      array.push(right.shift);
+      array.push(right.shift());
     } else {
-      array.push(left.shift);
+      array.push(left.shift());
     }
     console.log(left.length, right.length);
   }
+  array = array.concat(left).concat(right);
+  console.log(array);
   return array;
 }
 let array = [5, 4, 2, 6, 1, 4, 3];
