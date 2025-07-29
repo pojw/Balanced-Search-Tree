@@ -1,6 +1,6 @@
 class node {
   constructor(value, left, right) {
-    (this.value = value), (this.left = left), (this.right = right);
+    (this.value = value), (this.left = null), (this.right = null);
   }
 }
 
@@ -87,6 +87,23 @@ class BST {
     }
     return false;
   }
+  insert(value, Node = this.root) {
+    if (Node == null) {
+      console.log("fwr");
+
+      return new node(value);
+    }
+    if (Node.value == value) {
+      console.log("clone");
+      return Node;
+    }
+    if (Node.value > value) {
+      Node.left = this.insert(value, Node.left);
+    } else {
+      Node.right = this.insert(value, Node.right);
+    }
+    return Node;
+  }
 }
 let newArray = [];
 while (newArray.length != 100) {
@@ -109,5 +126,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-console.log(Balanced.find(3224));
-// prettyPrint(Balanced.root);
+prettyPrint(Balanced.root);
+
+console.log(Balanced.find(324));
+Balanced.insert(66);
+console.log(Balanced.root);
+prettyPrint(Balanced.root);
