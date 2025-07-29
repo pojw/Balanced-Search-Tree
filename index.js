@@ -66,6 +66,27 @@ class BST {
     let tree = this.createTree(checkedArrray);
     this.root = tree;
   }
+  find(value, node = this.root) {
+    if (node == null) {
+      return null;
+    }
+    if (node.value == value) {
+      console.log("found");
+      return node;
+    }
+
+    let leftValue = this.find(value, node.left);
+
+    if (leftValue) {
+      return true;
+    }
+    let rightValue = this.find(value, node.right);
+
+    if (rightValue) {
+      return true;
+    }
+    return false;
+  }
 }
 let newArray = [];
 while (newArray.length != 100) {
@@ -74,7 +95,7 @@ while (newArray.length != 100) {
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 let Balanced = new BST();
-Balanced.builtTree(newArray);
+Balanced.builtTree(array);
 console.log(Balanced.root);
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -88,5 +109,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
+console.log(Balanced.find(3224));
 // prettyPrint(Balanced.root);
