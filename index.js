@@ -1,40 +1,75 @@
-//merge sort will split it in half, until it lengh is 1, and the things being passed down will be the new array, left and right
-//so when you split the array in half, you would pass the left and right
-//that would be the recrussion for splititng it, to join would check for the valules of each array iten and ocmpare to the right and append the greater one
+class node {
+  constructor(value, left, right) {
+    (this.value = value), (this.left = left), (this.right = right);
+  }
+}
 
-//Funciotn to split array
-function MergeSort(array) {
-  //base case
-  console.log(array);
+class BST {
+  constructor(head, root) {
+    (this.head = head), (this.root = root);
+  }
+  MergeSort(array) {
+    //base case
 
-  if (array.length == 1) {
+    if (array.length == 1) {
+      return array;
+    }
+    let middle = Math.floor(array.length / 2);
+    let left = array.slice(0, middle);
+    let right = array.slice(middle);
+
+    let sortedLeft = this.MergeSort(left);
+    let sortedRight = this.MergeSort(right);
+
+    return this.sort(sortedLeft, sortedRight);
+  }
+  sort(left, right) {
+    let array = [];
+    while (left.length != 0 && right.length != 0) {
+      if (left[0] > right[0]) {
+        array.push(right.shift());
+      } else {
+        array.push(left.shift());
+      }
+    }
+    array = array.concat(left).concat(right);
     return array;
   }
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
-
-  let sortedLeft = MergeSort(left);
-  let sortedRight = MergeSort(right);
-
-  return sort(sortedLeft, sortedRight);
-}
-
-//function to put them back togeter
-function sort(left, right) {
-  let array = [];
-  while (left.length != 0 && right.length != 0) {
-    console.log("working");
-    if (left[0] > right[0]) {
-      array.push(right.shift());
-    } else {
-      array.push(left.shift());
+  duplicates(array) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === array[i + 1]) {
+        array.splice(i, 1);
+      }
     }
-    console.log(left.length, right.length);
+    return array;
   }
-  array = array.concat(left).concat(right);
-  console.log(array);
-  return array;
+  createTree(array) {
+    //base case
+    if (array.length === 0) {
+      return null;
+    }
+
+    //spliting
+    let mid = Math.floor(array.length / 2);
+    let left = array.slice(0, mid);
+    let right = array.slice(mid + 1);
+    console.log(mid, left, right);
+    let Node = new node();
+    Node.value = array[mid];
+    Node.left = this.createTree(left);
+    Node.right = this.createTree(right);
+    return Node;
+  }
+  builtTree(array) {
+    let sortedArray = this.MergeSort(array);
+    let checkedArrray = this.duplicates(sortedArray);
+    console.log(checkedArrray);
+    let tree = this.createTree(checkedArrray);
+
+    console.log(tree);
+  }
 }
-let array = [5, 4, 2, 6, 1, 4, 3];
-MergeSort(array);
+let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+
+let Balanced = new BST();
+Balanced.builtTree(array);
