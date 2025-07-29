@@ -1,40 +1,59 @@
-//merge sort will split it in half, until it lengh is 1, and the things being passed down will be the new array, left and right
-//so when you split the array in half, you would pass the left and right
-//that would be the recrussion for splititng it, to join would check for the valules of each array iten and ocmpare to the right and append the greater one
+class Node {
+  constructor(left, right, content) {
+    (this.left = left), (this.right = right), (this.content = content);
+  }
+}
+class Tree {
+  constructor(root) {
+    this.root = root;
+  }
+  create(array) {
+    if (array.length == 1) {
+      return null;
+    }
 
-//Funciotn to split array
-function MergeSort(array) {
-  //base case
-  console.log(array);
+    let middle = Math.floor(array.length / 2);
 
-  if (array.length == 1) {
+    let content = array[middle];
+    let left = this.create(array[(0, middle)]);
+    let right = this.create(array[middle]);
+    let node = new Node(left, right, content);
+    return node;
+  }
+
+  buildtree(array) {
+    let sortedArray = this.MergeSort(array);
+    //splitting
+    let tree = this.create(sortedArray);
+    return tree;
+  }
+  sort(left, right) {
+    let array = [];
+    while (left.length != 0 && right.length != 0) {
+      if (left[0] > right[0]) {
+        array.push(right.shift());
+      } else {
+        array.push(left.shift());
+      }
+    }
+    array = array.concat(left).concat(right);
     return array;
   }
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
-
-  let sortedLeft = MergeSort(left);
-  let sortedRight = MergeSort(right);
-
-  return sort(sortedLeft, sortedRight);
-}
-
-//function to put them back togeter
-function sort(left, right) {
-  let array = [];
-  while (left.length != 0 && right.length != 0) {
-    console.log("working");
-    if (left[0] > right[0]) {
-      array.push(right.shift());
-    } else {
-      array.push(left.shift());
+  MergeSort(array) {
+    if (array.length == 1) {
+      return array;
     }
-    console.log(left.length, right.length);
+    let middle = Math.floor(array.length / 2);
+    let left = array.slice(0, middle);
+    let right = array.slice(middle);
+
+    let sortedLeft = this.MergeSort(left);
+    let sortedRight = this.MergeSort(right);
+
+    return this.sort(sortedLeft, sortedRight);
   }
-  array = array.concat(left).concat(right);
-  console.log(array);
-  return array;
 }
-let array = [5, 4, 2, 6, 1, 4, 3];
-MergeSort(array);
+let working = [5, 4, 2, 6, 1, 4, 3];
+
+let node = new Tree();
+console.log(node.buildtree(working));
