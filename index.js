@@ -71,19 +71,20 @@ class BST {
       return null;
     }
     if (node.value == value) {
-      console.log("found");
+      console.log("found" + value);
+      console.log(node);
       return node;
     }
 
     let leftValue = this.find(value, node.left);
 
     if (leftValue) {
-      return true;
+      return leftValue;
     }
     let rightValue = this.find(value, node.right);
 
     if (rightValue) {
-      return true;
+      return rightValue;
     }
     return false;
   }
@@ -104,6 +105,53 @@ class BST {
     }
     return Node;
   }
+  remove(value, Node = this.root) {
+    console.log(Node);
+
+    if (Node.value == null) {
+      console.log("wrong");
+
+      return null;
+    }
+
+    if (Node.value < value) {
+      console.log(Node);
+
+      Node.right = this.remove(value, Node.right);
+      console.log(Node);
+    } else if (Node.value > value) {
+      console.log(Node);
+
+      Node.left = this.remove(value, Node.left);
+    } else {
+      console.log(Node);
+      if (Node.left == null && Node.right == null) {
+        console.log("leaf");
+        Node = null;
+      } else if (Node.left) {
+        let newNode = Node.left;
+        Node = newNode;
+        console.log("leftbranch");
+        return Node;
+      } else if (Node.right) {
+        let newNode = Node.right;
+        Node = newNode;
+        console.log("rightbranch");
+
+        return Node;
+      } else {
+        let newNode = this.leftMost(value, Node.right);
+        Node.value = newNode.value;
+        return Node;
+      }
+    }
+  }
+  leftMost(value, Node) {
+    while (Node.left) {
+      Node = Node.left;
+    }
+    return Node;
+  }
 }
 let newArray = [];
 while (newArray.length != 100) {
@@ -115,9 +163,8 @@ let Balanced = new BST();
 Balanced.builtTree(array);
 console.log(Balanced.root);
 const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
+  if (!node) return;
+
   if (node.right !== null) {
     prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
@@ -126,9 +173,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-prettyPrint(Balanced.root);
+// prettyPrint(Balanced.root);
 
-console.log(Balanced.find(324));
 Balanced.insert(66);
 console.log(Balanced.root);
+prettyPrint(Balanced.root);
+Balanced.remove(1);
 prettyPrint(Balanced.root);
