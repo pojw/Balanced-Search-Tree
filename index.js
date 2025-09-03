@@ -107,25 +107,39 @@ class BST {
   }
   remove(value, Node = this.root) {
     //find node
+    if (!Node) {
+      return null;
+    }
     if (Node.value == value) {
       console.log("found", Node);
+      //Leaf checking
+      if (!Node.left && !Node.right) {
+        console.log("leaf");
+        return null;
+      }
+      //One Child Checking
+      if (!Node.left) {
+        console.log("right Child");
+        return Node.right;
+      }
+      if (!Node.right) {
+        console.log("left child");
+        return Node.left;
+      }
+
       return Node;
     } else if (Node.value > value) {
       console.log("went left");
 
-      this.remove(value, Node.left);
+      Node.left = this.remove(value, Node.left);
       return Node;
     } else if (Node.value < value) {
       console.log("went right");
 
-      this.remove(value, Node.right);
+      Node.right = this.remove(value, Node.right);
       return Node;
-    } else if (Node.value == null) {
-      console.log("not found");
-      return false;
     }
-
-    console.log("Node");
+    console.log("maniplaute node");
   }
 }
 let newArray = [];
@@ -149,10 +163,14 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 // prettyPrint(Balanced.root);
-prettyPrint(Balanced.root);
 
 Balanced.insert(66);
 console.log(Balanced.root);
 prettyPrint(Balanced.root);
 
-Balanced.remove(23);
+Balanced.remove(3);
+Balanced.remove(1);
+Balanced.remove(5);
+Balanced.remove(4);
+
+prettyPrint(Balanced.root);
