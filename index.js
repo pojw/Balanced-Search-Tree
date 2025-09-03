@@ -106,51 +106,26 @@ class BST {
     return Node;
   }
   remove(value, Node = this.root) {
-    console.log(Node);
-
-    if (Node.value == null) {
-      console.log("wrong");
-
-      return null;
-    }
-
-    if (Node.value < value) {
-      console.log(Node);
-
-      Node.right = this.remove(value, Node.right);
-      console.log(Node);
+    //find node
+    if (Node.value == value) {
+      console.log("found", Node);
+      return Node;
     } else if (Node.value > value) {
-      console.log(Node);
+      console.log("went left");
 
-      Node.left = this.remove(value, Node.left);
-    } else {
-      console.log(Node);
-      if (Node.left == null && Node.right == null) {
-        console.log("leaf");
-        Node = null;
-      } else if (Node.left) {
-        let newNode = Node.left;
-        Node = newNode;
-        console.log("leftbranch");
-        return Node;
-      } else if (Node.right) {
-        let newNode = Node.right;
-        Node = newNode;
-        console.log("rightbranch");
+      this.remove(value, Node.left);
+      return Node;
+    } else if (Node.value < value) {
+      console.log("went right");
 
-        return Node;
-      } else {
-        let newNode = this.leftMost(value, Node.right);
-        Node.value = newNode.value;
-        return Node;
-      }
+      this.remove(value, Node.right);
+      return Node;
+    } else if (Node.value == null) {
+      console.log("not found");
+      return false;
     }
-  }
-  leftMost(value, Node) {
-    while (Node.left) {
-      Node = Node.left;
-    }
-    return Node;
+
+    console.log("Node");
   }
 }
 let newArray = [];
@@ -174,9 +149,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 // prettyPrint(Balanced.root);
+prettyPrint(Balanced.root);
 
 Balanced.insert(66);
 console.log(Balanced.root);
 prettyPrint(Balanced.root);
-Balanced.remove(1);
-prettyPrint(Balanced.root);
+
+Balanced.remove(23);
