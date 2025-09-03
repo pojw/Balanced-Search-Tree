@@ -90,8 +90,6 @@ class BST {
   }
   insert(value, Node = this.root) {
     if (Node == null) {
-      console.log("fwr");
-
       return new node(value);
     }
     if (Node.value == value) {
@@ -126,6 +124,26 @@ class BST {
         console.log("left child");
         return Node.left;
       }
+      //Two children
+      else {
+        console.log("double Children");
+        let farLeftParent = Node;
+        let farLeft = Node.right;
+
+        while (farLeft.left) {
+          console.log("left");
+          farLeftParent = farLeft;
+
+          farLeft = farLeft.left;
+        }
+        Node.value = farLeft.value;
+        farLeftParent.left = null;
+        if (farLeftParent.left === farLeft) {
+          farLeftParent.left = farLeft.right;
+        } else {
+          farLeftParent.right = farLeft.right;
+        }
+      }
 
       return Node;
     } else if (Node.value > value) {
@@ -139,7 +157,6 @@ class BST {
       Node.right = this.remove(value, Node.right);
       return Node;
     }
-    console.log("maniplaute node");
   }
 }
 let newArray = [];
@@ -150,7 +167,6 @@ let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 let Balanced = new BST();
 Balanced.builtTree(array);
-console.log(Balanced.root);
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (!node) return;
 
@@ -162,15 +178,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-// prettyPrint(Balanced.root);
-
-Balanced.insert(66);
-console.log(Balanced.root);
 prettyPrint(Balanced.root);
 
-Balanced.remove(3);
-Balanced.remove(1);
-Balanced.remove(5);
-Balanced.remove(4);
-
+Balanced.insert(66);
+Balanced.remove();
 prettyPrint(Balanced.root);
