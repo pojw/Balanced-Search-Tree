@@ -158,6 +158,57 @@ class BST {
       return Node;
     }
   }
+  levelOrderForEach(Node = this.root) {
+    let queue = [];
+
+    console.log("fdfsdf");
+    queue.push(Node);
+    while (queue.length != 0) {
+      console.log(queue[0].value);
+      if (queue[0].left != null) {
+        queue.push(queue[0].left);
+      }
+      if (queue[0].right != null) {
+        queue.push(queue[0].right);
+      }
+      queue.shift();
+    }
+  }
+  depth(value, Node = this.root, depth = 0) {
+    if (Node == null) {
+      console.log("missing");
+      return false;
+    }
+    if (value == Node.value) {
+      console.log("Took ", depth);
+      return depth;
+    }
+
+    if (value > Node.value) {
+      this.depth(value, Node.right, (depth += 1));
+    }
+    if (value < Node.value) {
+      this.depth(value, Node.left, (depth += 1));
+    }
+  }
+  height(value, Node = this.root, height = 0) {
+    if (Node == null) {
+      console.log("missing");
+      return false;
+    }
+    let left = this.height(value, Node.left, height + 1);
+
+    let right = this.height(value, Node.right, height + 1);
+
+    if (height < left) {
+      height = left;
+    }
+    if (height < right) {
+      height = right;
+    }
+    console.log(height);
+    return height;
+  }
 }
 let newArray = [];
 while (newArray.length != 100) {
@@ -166,7 +217,7 @@ while (newArray.length != 100) {
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 let Balanced = new BST();
-Balanced.builtTree(array);
+Balanced.builtTree(newArray);
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (!node) return;
 
@@ -183,3 +234,6 @@ prettyPrint(Balanced.root);
 Balanced.insert(66);
 Balanced.remove();
 prettyPrint(Balanced.root);
+Balanced.levelOrderForEach();
+Balanced.depth(3);
+Balanced.height(9);
