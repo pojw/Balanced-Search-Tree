@@ -193,7 +193,7 @@ class BST {
   }
   height(value, Node = this.root, height = 0) {
     if (Node == null) {
-      console.log("missing");
+      console.log("leaf explore");
       return false;
     }
     let left = this.height(value, Node.left, height + 1);
@@ -209,6 +209,32 @@ class BST {
     console.log(height);
     return height;
   }
+  preOrder(Node = this.root) {
+    //the structure is value, then left, then right
+    //goes all the way left
+    if (Node == null) {
+      return true;
+    }
+    console.log(Node.value);
+    this.preOrder(Node.left);
+    this.preOrder(Node.right);
+  }
+  inOrder(Node = this.root) {
+    if (Node == null) {
+      return false;
+    }
+    this.inOrder(Node.left);
+    console.log(Node.value);
+    this.inOrder(Node.right);
+  }
+  postOrder(Node = this.root) {
+    if (Node == null) {
+      return false;
+    }
+    this.postOrder(Node.left);
+    this.postOrder(Node.right);
+    console.log(Node.value);
+  }
 }
 let newArray = [];
 while (newArray.length != 100) {
@@ -217,7 +243,7 @@ while (newArray.length != 100) {
 let array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 let Balanced = new BST();
-Balanced.builtTree(newArray);
+Balanced.builtTree(array);
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (!node) return;
 
@@ -231,9 +257,12 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 prettyPrint(Balanced.root);
 
-Balanced.insert(66);
+Balanced.insert(65);
+Balanced.insert(68);
+Balanced.insert(69);
+
+Balanced.insert(70);
+
 Balanced.remove();
 prettyPrint(Balanced.root);
-Balanced.levelOrderForEach();
-Balanced.depth(3);
-Balanced.height(9);
+Balanced.postOrder();
